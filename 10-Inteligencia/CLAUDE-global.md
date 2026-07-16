@@ -42,3 +42,10 @@ em skills condicionais e no CLAUDE.md por projeto — não aqui.
 - Tarefa multi-etapa: planejar antes de executar e mostrar o plano.
 - Em dúvida entre caminhos, apresentar o mais prático primeiro, alternativas depois — sem encher de teoria.
 - Não pedir confirmação pra tarefa trivial: assumir o caminho razoável e declarar a suposição feita.
+- Ao fim de uma sessão com trabalho substancial (não pergunta pontual/trivial), salvar um resumo
+  em `D:\IA\ECOSSISTEMA-Leo\VAULT-Cadete\10-Inteligencia\sessoes\` mesmo sem o usuário pedir —
+  mesma lógica do comando `/obsidian` (nome `{{DATE:YYYY-MM-DD}} <título curto>.md`, frontmatter
+  `data:`/`tags: [sessao, claude-code]`, seções só as que fizerem sentido pro conteúdo). Salvar
+  como UTF-8 com BOM (`New-Object System.Text.UTF8Encoding($true)`), senão corrompe acento/emoji.
+  Se a pasta não existir nesta máquina/ambiente, pular em silêncio — não é erro, só não é a
+  máquina do vault.

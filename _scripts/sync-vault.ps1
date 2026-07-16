@@ -79,17 +79,38 @@ $rows = Get-ChildItem $skillsDir -Recurse -Filter "SKILL.md" -ErrorAction Silent
     }
 } | Sort-Object Categoria, Nome
 
-$body = New-Object System.Text.StringBuilder
-[void]$body.AppendLine("# 🧩 Inventário de Skills")
-[void]$body.AppendLine("Atualizado: $(Get-Date -Format "yyyy-MM-dd HH:mm") — Total: $($rows.Count)")
-[void]$body.AppendLine("")
-[void]$body.AppendLine("| Categoria | Skill | Descrição |")
-[void]$body.AppendLine("|---|---|---|")
-foreach ($r in $rows) {
-    [void]$body.AppendLine("| $($r.Categoria) | $($r.Link) | $($r.Descricao) |")
+$utf8Bom = New-Object System.Text.UTF8Encoding($true)
+$hubDir = "$vault\00-Dashboard\Skills"
+New-Item -ItemType Directory -Path $hubDir -Force | Out-Null
+
+$categorias = $rows | Group-Object Categoria | Sort-Object Name
+
+# Uma nota "hub" por categoria — cada uma linkando só pras suas skills.
+# Isso faz o grafo do Obsidian mostrar um cluster por categoria em vez de
+# uma estrela única com as 105 skills no Skills.md.
+foreach ($cat in $categorias) {
+    $catBody = New-Object System.Text.StringBuilder
+    [void]$catBody.AppendLine("# $($cat.Name)")
+    [void]$catBody.AppendLine("$($cat.Count) skills — [[00-Dashboard/Skills|voltar ao índice]]")
+    [void]$catBody.AppendLine("")
+    [void]$catBody.AppendLine("| Skill | Descrição |")
+    [void]$catBody.AppendLine("|---|---|")
+    foreach ($r in ($cat.Group | Sort-Object Nome)) {
+        [void]$catBody.AppendLine("| $($r.Link) | $($r.Descricao) |")
+    }
+    [System.IO.File]::WriteAllText("$hubDir\$($cat.Name).md", $catBody.ToString(), $utf8Bom)
 }
 
-$utf8Bom = New-Object System.Text.UTF8Encoding($true)
-[System.IO.File]::WriteAllText("$vault\00-Dashboard\Skills.md", $body.ToString(), $utf8Bom)
+# Índice: só linka pras notas-hub de categoria, não pras 105 skills direto.
+$indexBody = New-Object System.Text.StringBuilder
+[void]$indexBody.AppendLine("# 🧩 Inventário de Skills")
+[void]$indexBody.AppendLine("Atualizado: $(Get-Date -Format "yyyy-MM-dd HH:mm") — Total: $($rows.Count) skills em $($categorias.Count) categorias")
+[void]$indexBody.AppendLine("")
+[void]$indexBody.AppendLine("| Categoria | Skills | Nota |")
+[void]$indexBody.AppendLine("|---|---|---|")
+foreach ($cat in $categorias) {
+    [void]$indexBody.AppendLine("| $($cat.Name) | $($cat.Count) | [[00-Dashboard/Skills/$($cat.Name)|abrir]] |")
+}
+[System.IO.File]::WriteAllText("$vault\00-Dashboard\Skills.md", $indexBody.ToString(), $utf8Bom)
 
-Write-Host "Skills.md gerado: $($rows.Count) skills."
+Write-Host "Skills.md + $($categorias.Count) notas-hub geradas: $($rows.Count) skills."
