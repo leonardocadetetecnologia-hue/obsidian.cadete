@@ -1,0 +1,10 @@
+﻿10-Inteligencia/skills/
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+.trash/
+
+# Lixo de SO
+.DS_Store
+Thumbs.db
+desktop.ini
