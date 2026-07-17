@@ -2,5 +2,7 @@
   "theme": "obsidian",
   "accentColor": "",
   "cssTheme": "Obsidian Nord",
-  "enabledCssSnippets": ["fundo-espaco-grafico"]
+  "enabledCssSnippets": [
+    "fundo-espaco-grafico"
+  ]
 }

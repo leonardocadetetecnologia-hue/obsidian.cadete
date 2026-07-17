@@ -3,6 +3,6 @@
 
 | Skill | Descrição |
 |---|---|
-| [[10-Inteligencia/skills/apolo/SKILL\|apolo]] | _(sem descrição)_ |
-| [[10-Inteligencia/skills/engenheiro/SKILL\|engenheiro]] | _(sem descrição)_ |
-| [[10-Inteligencia/skills/especialista/SKILL\|especialista]] | _(sem descrição)_ |
+| [[00-Dashboard/Skills/raiz/apolo]] | _(sem descrição)_ |
+| [[00-Dashboard/Skills/raiz/engenheiro]] | _(sem descrição)_ |
+| [[00-Dashboard/Skills/raiz/especialista]] | _(sem descrição)_ |

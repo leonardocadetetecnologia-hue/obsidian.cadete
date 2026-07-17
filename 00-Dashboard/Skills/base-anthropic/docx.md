@@ -1,0 +1,6 @@
+﻿# docx
+Categoria: base-anthropic
+
+Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files). Triggers include: any mention of 'Word doc', 'word doc...
+
+Fonte: `10-Inteligencia/skills/base-anthropic/docx/SKILL.md`

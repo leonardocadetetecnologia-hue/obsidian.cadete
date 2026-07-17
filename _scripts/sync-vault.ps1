@@ -74,7 +74,7 @@ $rows = Get-ChildItem $skillsDir -Recurse -Filter "SKILL.md" -ErrorAction Silent
     [PSCustomObject]@{
         Categoria = $categoria
         Nome      = $name
-        Link      = "[[10-Inteligencia/skills/$relPath/SKILL\|$name]]"
+        RelPath   = $relPath
         Descricao = $desc
     }
 } | Sort-Object Categoria, Nome
@@ -85,10 +85,16 @@ New-Item -ItemType Directory -Path $hubDir -Force | Out-Null
 
 $categorias = $rows | Group-Object Categoria | Sort-Object Name
 
-# Uma nota "hub" por categoria — cada uma linkando só pras suas skills.
-# Isso faz o grafo do Obsidian mostrar um cluster por categoria em vez de
-# uma estrela única com as 105 skills no Skills.md.
+# Uma nota "hub" por categoria + uma nota-ponte por skill (nome real, ex:
+# "api-design.md"), em vez de linkar direto pro SKILL.md — todo skill se
+# chama literalmente "SKILL.md" (é assim que o Claude Code identifica a
+# skill, não dá pra renomear), então o grafo mostraria "SKILL" em todo nó.
+# A ponte não linka de volta pro SKILL.md real — só guarda a descrição e o
+# caminho como texto, pra não criar mais um nó satélite "SKILL" no grafo.
 foreach ($cat in $categorias) {
+    $catDir = "$hubDir\$($cat.Name)"
+    New-Item -ItemType Directory -Path $catDir -Force | Out-Null
+
     $catBody = New-Object System.Text.StringBuilder
     [void]$catBody.AppendLine("# $($cat.Name)")
     [void]$catBody.AppendLine("$($cat.Count) skills — [[00-Dashboard/Skills|voltar ao índice]]")
@@ -96,7 +102,16 @@ foreach ($cat in $categorias) {
     [void]$catBody.AppendLine("| Skill | Descrição |")
     [void]$catBody.AppendLine("|---|---|")
     foreach ($r in ($cat.Group | Sort-Object Nome)) {
-        [void]$catBody.AppendLine("| $($r.Link) | $($r.Descricao) |")
+        [void]$catBody.AppendLine("| [[00-Dashboard/Skills/$($cat.Name)/$($r.Nome)]] | $($r.Descricao) |")
+
+        $proxyBody = New-Object System.Text.StringBuilder
+        [void]$proxyBody.AppendLine("# $($r.Nome)")
+        [void]$proxyBody.AppendLine("Categoria: $($cat.Name)")
+        [void]$proxyBody.AppendLine("")
+        [void]$proxyBody.AppendLine($r.Descricao)
+        [void]$proxyBody.AppendLine("")
+        [void]$proxyBody.AppendLine("Fonte: ``10-Inteligencia/skills/$($r.RelPath)/SKILL.md``")
+        [System.IO.File]::WriteAllText("$catDir\$($r.Nome).md", $proxyBody.ToString(), $utf8Bom)
     }
     [System.IO.File]::WriteAllText("$hubDir\$($cat.Name).md", $catBody.ToString(), $utf8Bom)
 }
