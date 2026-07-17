@@ -1,5 +1,6 @@
 {
   "theme": "obsidian",
   "accentColor": "",
-  "cssTheme": "Obsidian Nord"
+  "cssTheme": "Obsidian Nord",
+  "enabledCssSnippets": ["fundo-espaco-grafico"]
 }

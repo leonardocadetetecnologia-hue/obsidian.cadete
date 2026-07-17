@@ -74,7 +74,7 @@ $rows = Get-ChildItem $skillsDir -Recurse -Filter "SKILL.md" -ErrorAction Silent
     [PSCustomObject]@{
         Categoria = $categoria
         Nome      = $name
-        Link      = "[[10-Inteligencia/skills/$relPath/SKILL|$name]]"
+        Link      = "[[10-Inteligencia/skills/$relPath/SKILL\|$name]]"
         Descricao = $desc
     }
 } | Sort-Object Categoria, Nome
@@ -109,7 +109,7 @@ $indexBody = New-Object System.Text.StringBuilder
 [void]$indexBody.AppendLine("| Categoria | Skills | Nota |")
 [void]$indexBody.AppendLine("|---|---|---|")
 foreach ($cat in $categorias) {
-    [void]$indexBody.AppendLine("| $($cat.Name) | $($cat.Count) | [[00-Dashboard/Skills/$($cat.Name)|abrir]] |")
+    [void]$indexBody.AppendLine("| $($cat.Name) | $($cat.Count) | [[00-Dashboard/Skills/$($cat.Name)\|abrir]] |")
 }
 [System.IO.File]::WriteAllText("$vault\00-Dashboard\Skills.md", $indexBody.ToString(), $utf8Bom)
 

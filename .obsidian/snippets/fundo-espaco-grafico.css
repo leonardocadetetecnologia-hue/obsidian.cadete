@@ -1,0 +1,18 @@
+/* Fundo estrelado, só na Visualização em Gráfico */
+.workspace-leaf-content[data-type="graph"] .view-content,
+.graph-view.view-content {
+	background-color: #05070f;
+	background-image:
+		radial-gradient(1.5px 1.5px at 40px 60px, #ffffff, transparent),
+		radial-gradient(1px 1px at 120px 140px, #cfd8ff, transparent),
+		radial-gradient(1px 1px at 200px 40px, #ffffff, transparent),
+		radial-gradient(2px 2px at 260px 180px, #ffffff, transparent),
+		radial-gradient(1px 1px at 320px 100px, #cfd8ff, transparent),
+		radial-gradient(1.5px 1.5px at 30px 220px, #ffffff, transparent),
+		radial-gradient(1px 1px at 160px 260px, #ffffff, transparent),
+		radial-gradient(1px 1px at 380px 220px, #cfd8ff, transparent),
+		radial-gradient(2px 2px at 90px 300px, #ffffff, transparent),
+		radial-gradient(1px 1px at 340px 320px, #ffffff, transparent);
+	background-repeat: repeat;
+	background-size: 400px 340px;
+}
